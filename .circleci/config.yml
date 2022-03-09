@@ -8,6 +8,18 @@ jobs:
     steps: 
       - checkout
       -
+        version: 2.1
+        orbs:
+            snyk: snyk/snyk@1.1.2
+        jobs:
+            build:
+              docker:
+                - 
+                  image: 'circleci/openjdk:8-jdk-browsers"
+              steps:
+                - checkout
+                - snyk/scan
+      -
         run: 
           command: | 
               # install DumpsterDiver here
@@ -18,6 +30,7 @@ jobs:
               pip install -r requirements.txt
               python3 DumpsterDiver.py -p /home/circleci/spring-rest-helloworld --min-key 40 --max-key 40 --entropy 4.3
           name: "dumpster diver"
+          
 
       - setup_remote_docker
       - 
